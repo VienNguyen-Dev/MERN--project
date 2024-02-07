@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
@@ -31,6 +32,7 @@ export default function SignUp() {
       setLoading(false);
       setError(null);
       navigate("/sign-in");
+      toast.success("Create account success");
     } catch (error) {
       setLoading(false);
       setError(error.message);
