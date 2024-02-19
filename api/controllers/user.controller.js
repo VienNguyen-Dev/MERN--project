@@ -1,6 +1,6 @@
 import { errorHandle } from "../utils/error.js";
 import bcryptjs from 'bcryptjs';
-import User from '../models/User.model.js'
+import User from '../models/user.model.js'
 
 
 export const test = (req, res) => {
