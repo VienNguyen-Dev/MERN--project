@@ -15,7 +15,7 @@ import {
   signOutUserFailure,
 } from "../redux/user/userSlice";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -163,6 +163,9 @@ export default function Profile() {
         <button disabled={loading} className="bg-slate-700 p-3 rounded-xl hover:opacity-95 text-white disabled:opacity-80">
           {loading ? "Loading" : "Update"}
         </button>
+        <Link className="bg-green-700 p-3 rounded-xl text-white text-center hover:opacity-95 uppercase" to={"/create-listing"}>
+          Create Listing
+        </Link>
       </form>
       <div className="flex justify-between mt-5">
         <span onClick={handleDelete} className="text-red-700">
