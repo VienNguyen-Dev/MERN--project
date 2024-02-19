@@ -31,9 +31,9 @@ export const signin = async (req, res, next) => {
     }
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = validUser._doc;//Dòng lệnh này thể hiện việc trích xuất dữ liệu password từ validUser._doc trong mongoDB. Truyền giá  trị của password ở trong mongoDB vào biến có tên là pass và các thành phần còn lại vào một biến có tên là "rest"
-    res.cookie('access_token', token, { httpOnly: true }).status(200).json({
-      rest
-    })
+    res.cookie('access_token', token, { httpOnly: true })
+      .status(200)
+      .json(rest)
   } catch (error) {
     next(error)
   }
