@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
-import { updateUserStart, updateUserSuccess, updateUserFailure } from "../redux/user/userSlice";
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from "../redux/user/userSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -94,6 +94,26 @@ export default function Profile() {
   const handleSignOut = () => {
     navigate("/sign-in");
   };
+  const handleDelete = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+      navigate("/sign-in");
+      toast.success("User is deleted!");
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+      toast.error("Something went wrong");
+    }
+  };
   return (
     <div className="p-3 mx-auto max-w-lg">
       <h1 className="font-semiold text-3xl my-7 text-center">Profile</h1>
@@ -119,7 +139,9 @@ export default function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700">Delete account</span>
+        <span onClick={handleDelete} className="text-red-700">
+          Delete account
+        </span>
         <span className="text-red-700">Sign out</span>
       </div>
       <div>
