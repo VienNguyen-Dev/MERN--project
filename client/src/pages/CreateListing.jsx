@@ -130,7 +130,7 @@ export default function CreateListing() {
       const data = await res.json();
       setLoading(false);
       toast.success("Create listing succesfuly!");
-      navigate(`/listings/${data._id}`);
+      navigate(`/listing/${data._id}`);
       if (data.success === false) {
         setError(data.message);
       }

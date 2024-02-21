@@ -143,7 +143,7 @@ export default function UpdateListing() {
       const data = await res.json();
       setLoading(false);
       toast.success("Update listing succesfuly!");
-      navigate(`/listings/${data._id}`);
+      navigate(`/listing/${data._id}`);
       if (data.success === false) {
         setError(data.message);
       }
@@ -255,7 +255,7 @@ export default function UpdateListing() {
             className="p-3 bg-slate-700 rounded-xl text-white uppercase hover:opacity-95 disabled:
         opacity-80"
           >
-            {loading ? "Creating..." : "Update Listing"}
+            {loading ? "updating..." : "Update Listing"}
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>

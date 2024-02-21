@@ -223,11 +223,11 @@ export default function Profile() {
           <p className="text-center text-3xl mt-7">Your listings</p>
           {userListings.map((listing) => (
             <div key={listing._id} className="flex rounded-lg p-3 border items-center justify-between gap-4">
-              <Link to={`/listings/${listing._id}`}>
+              <Link to={`/listing/${listing._id}`}>
                 <img src={listing.imageUrls[0]} alt="listing cover" className="w-16 h-16 rounded-lg object-contain" />
               </Link>
 
-              <Link className="text-slate-700 font-semibold hover:underline truncate flex-1" to={`/listings/${listing._id}`}>
+              <Link className="text-slate-700 font-semibold hover:underline truncate flex-1" to={`/listing/${listing._id}`}>
                 <p>{listing.name}</p>
               </Link>
 
@@ -235,8 +235,10 @@ export default function Profile() {
                 <button onClick={() => handleListingDelete(listing._id)} className="text-red-700 uppercase hover:underline">
                   Delete
                 </button>
-                <Link to={`/update-listing/${listing._id}`}>  <button className="text-green-700 hover:underline uppercase">Edit</button></Link>
-              
+                <Link to={`/update-listing/${listing._id}`}>
+                  {" "}
+                  <button className="text-green-700 hover:underline uppercase">Edit</button>
+                </Link>
               </div>
             </div>
           ))}
