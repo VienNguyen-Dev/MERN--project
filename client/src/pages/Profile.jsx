@@ -173,6 +173,7 @@ export default function Profile() {
       console.log(error.message);
     }
   };
+
   return (
     <div className="p-3 mx-auto max-w-lg">
       <h1 className="font-semiold text-3xl my-7 text-center">Profile</h1>
@@ -231,10 +232,11 @@ export default function Profile() {
               </Link>
 
               <div className="flex flex-col items-center">
-                <button onClick={() => handleListingDelete(listing._id)} className="text-red-700 uppercase hover:opacity-75">
+                <button onClick={() => handleListingDelete(listing._id)} className="text-red-700 uppercase hover:underline">
                   Delete
                 </button>
-                <button className="text-green-700 hover:opacity-75 uppercase">Edit</button>
+                <Link to={`/update-listing/${listing._id}`}>  <button className="text-green-700 hover:underline uppercase">Edit</button></Link>
+              
               </div>
             </div>
           ))}

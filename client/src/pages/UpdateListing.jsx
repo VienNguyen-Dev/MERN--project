@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 
-export default function CreateListing() {
+export default function UpdateListing() {
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -27,10 +27,23 @@ export default function CreateListing() {
   const [loading, setLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const params = useParams();
 
-  console.log(files);
+  useEffect(() => {
+    const fetchListing = async () => {
+      const listingId = params.listingId;
+      const res = await fetch(`/api/listing/get/${listingId}`);
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setFormData(data);
+    };
+
+    fetchListing();
+  }, []);
   console.log(formData);
-  console.log(currentUser);
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -116,7 +129,7 @@ export default function CreateListing() {
       if (+formData.regularPrice < +formData.discountPrice) return setError("Discount price must be lower than regular price");
       setLoading(true);
       setError(false);
-      const res = await fetch("/api/listing/create", {
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +142,7 @@ export default function CreateListing() {
 
       const data = await res.json();
       setLoading(false);
-      toast.success("Create listing succesfuly!");
+      toast.success("Update listing succesfuly!");
       navigate(`/listings/${data._id}`);
       if (data.success === false) {
         setError(data.message);
@@ -141,7 +154,7 @@ export default function CreateListing() {
   };
   return (
     <main className="p-3 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-semibold my-7 text-center">Create a new Listing</h1>
+      <h1 className="text-3xl font-semibold my-7 text-center">Update a Listing</h1>
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
         <div className="flex flex-col gap-4 flex-1">
           <input className="p-3 border rounded-xl" type="text" name="name" id="name" placeholder="Name" maxLength="62" minLength="10" required onChange={handleChange} value={formData.name} />
@@ -242,7 +255,7 @@ export default function CreateListing() {
             className="p-3 bg-slate-700 rounded-xl text-white uppercase hover:opacity-95 disabled:
         opacity-80"
           >
-            {loading ? "Creating..." : "Create Listing"}
+            {loading ? "Creating..." : "Update Listing"}
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>
