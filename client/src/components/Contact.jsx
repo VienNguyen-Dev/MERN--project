@@ -35,7 +35,7 @@ export default function Contact({ listing }) {
             for <span className="font-semibold">{listing.name.toLowerCase()}</span>
           </p>
           <textarea className="w-full border rounded-lg p-3" name="message" id="message" rows="2" value={message} onChange={onChange} placeholder="Enter your message here..."></textarea>
-          <Link to={`mailto:${landlord.email}?subject=Regarding${listing.name}&body=${message}`} className="bg-slate-700 text-white roundef-lg p-3 hover:opacity-95 uppercase">
+          <Link to={`mailto:${landlord.email}?subject=Regarding${listing.name}&body=${message}`} className="bg-slate-700 text-center text-white rounded-lg p-3 hover:opacity-95 uppercase">
             Send message
           </Link>
         </div>
