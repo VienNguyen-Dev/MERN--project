@@ -85,14 +85,14 @@ export const getListings = async (req, res, next) => {
     const sort = req.query.sort || "createAt";
     const order = req.query.order || 'desc';
     const listings = await Listing.find({
-      name: { $regex: searchTerm, $options: 'i' },
+      name: { $regex: searchTerm, $options: 'i' }, //regex: tim,f kiếm các kí tự phù hợp; options: 'i': tìm kiếm không phân biệt chữ hoa hay chữ thường
       offer,
       parking,
       furnished,
       type
     }).sort({
       [sort]: order
-    }).limit(limit).skip(startIndex);
+    }).limit(limit).skip(startIndex); //startIndex trong trường hợp này là xác đinh số đối tượng được bỏ qua
 
     res.status(200).json(listings)
   } catch (error) {
