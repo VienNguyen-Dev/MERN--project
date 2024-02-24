@@ -16,7 +16,7 @@ export default function Search() {
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
 
-  console.log(listings);
+  const [showMore, setshowMore] = useState(false);
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
 
@@ -42,9 +42,15 @@ export default function Search() {
 
     const fetchListings = async () => {
       setLoading(true);
+      setshowMore(false);
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
+      if (data.length > 8) {
+        setshowMore(true);
+      } else {
+        setshowMore(false);
+      }
       setListings(data);
       setLoading(false);
     };
@@ -95,6 +101,22 @@ export default function Search() {
 
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+  };
+
+  const onShowMoreClick = async () => {
+    const numberOfListings = listings.length;
+    const startIndex = numberOfListings;
+
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(`/api/listing/get?${searchQuery}`);
+    const data = await res.json();
+
+    if (data.length < 9) {
+      setshowMore(false);
+      setListings([...listings, ...data]); //Cập nhật biến listings bằng cách thêm dữ liệu mới data vào. Đây là cách thêm các phần tử mới vào một đối tượng.
+    }
   };
 
   return (
@@ -156,6 +178,11 @@ export default function Search() {
           {!loading && listings.length === 0 && <p className="text-xl text-slate-700">No listitings found!</p>}
           {loading && <p className="text-slate-700 text-center text-xl w-full">Loading...</p>}
           {!loading && listings && listings.map((listing) => <ListingItem key={listing._id} listing={listing} />)}
+          {showMore && (
+            <button onClick={onShowMoreClick} className="text-green-700 hover:underline p-7 text-center w-full">
+              Show more
+            </button>
+          )}
         </div>
       </div>
     </div>

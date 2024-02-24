@@ -79,7 +79,9 @@ export default function Listing() {
             </p>
             <div className="flex gap-4">
               <p className="bg-red-900 text-white text-center w-full max-w-[200px] p-1 rounded-md">{listing.type === "rent" ? "For rent" : "For sale"}</p>
-              {listing.offer && <p className="bg-green-900 p-1 text-white text-center rounded-md w-full max-w-[200px]">${+listing.regularPrice - +listing.discountPrice} OFF</p>}
+              {listing.offer && (
+                <p className="bg-green-900 p-1 text-white text-center rounded-md w-full max-w-[200px]">${(+listing.regularPrice - +listing.discountPrice).toLocaleString("en-Us")} OFF</p>
+              )}
             </div>
             <p className="text-slate-800">
               <span className="text-black font-semibold">Description - </span>
