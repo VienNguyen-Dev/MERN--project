@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ListingItem from "../components/ListingItem";
 
 export default function Search() {
   const [sidebardata, setSidebardata] = useState({
@@ -128,7 +129,7 @@ export default function Search() {
           <div className="flex gap-2 items-center flex-wrap">
             <label className=" font-semibold">Amenities:</label>
 
-            <div className="flex gap-2 ">
+            <div className="flex gap-2">
               <input type="checkbox" name="parking" id="parking" className="w-5" checked={sidebardata.parking} onChange={handleChange} />
               <span>Parking</span>
             </div>
@@ -149,8 +150,13 @@ export default function Search() {
           <button className="uppercase p-3 bg-slate-700 rounded-lg text-white hover:opacity-95">Search</button>
         </form>
       </div>
-      <div className="">
+      <div className="flex-1">
         <h1 className=" text-3xl text-center text-slate-700 border p-3 font-semibold mt-5">Listing result:</h1>
+        <div className="p-7 flex flex-wrap gap-4">
+          {!loading && listings.length === 0 && <p className="text-xl text-slate-700">No listitings found!</p>}
+          {loading && <p className="text-slate-700 text-center text-xl w-full">Loading...</p>}
+          {!loading && listings && listings.map((listing) => <ListingItem key={listing._id} listing={listing} />)}
+        </div>
       </div>
     </div>
   );

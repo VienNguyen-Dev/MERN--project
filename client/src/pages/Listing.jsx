@@ -70,8 +70,7 @@ export default function Listing() {
           {copied && <p className="fixed top-[23%] right-[5%] z-10 rounded-md bg-slate-100 p-2">Link copied!</p>}
           <div className="flex flex-col gap-4 my-7 max-w-4xl mx-auto p-3">
             <p className="text-2xl font-semibold">
-              {listing.name} - ${""}
-              {listing.offer ? listing.discountPrice.toLocaleString("en-Us") : listing.regularPrice.toLocaleString("en-Us")}
+              {listing.name} - ${listing.offer ? listing.discountPrice.toLocaleString("en-Us") : listing.regularPrice.toLocaleString("en-Us")}
               {listing.type === "rent" && " / month"}
             </p>
             <p className="flex gap-2 items-center mt-6 text-sm text-slate-700">
@@ -80,7 +79,7 @@ export default function Listing() {
             </p>
             <div className="flex gap-4">
               <p className="bg-red-900 text-white text-center w-full max-w-[200px] p-1 rounded-md">{listing.type === "rent" ? "For rent" : "For sale"}</p>
-              {listing.offer && <p className="bg-green-900 p-1 text-white text-center rounded-md w-full max-w-[200px]">${+listing.regularPrice - +listing.discountPrice}</p>}
+              {listing.offer && <p className="bg-green-900 p-1 text-white text-center rounded-md w-full max-w-[200px]">${+listing.regularPrice - +listing.discountPrice} OFF</p>}
             </div>
             <p className="text-slate-800">
               <span className="text-black font-semibold">Description - </span>
